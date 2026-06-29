@@ -1,0 +1,16 @@
+{
+  "name": "modbus-master-emulator",
+  "version": "1.0.0",
+  "description": "Modbus RTU Master Emulator",
+  "main": "master.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node master.js",
+    "dev": "node master.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "modbus-serial": "^8.0.23",
+    "socket.io": "^4.8.1"
+  }
+}
