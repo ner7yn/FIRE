@@ -8,7 +8,7 @@ module.exports = {
         stopBits: 1,
         parity: "none",
 
-        pollInterval: 30000
+        pollInterval: 20000
     },
 
     web: {

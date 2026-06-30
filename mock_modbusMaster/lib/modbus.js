@@ -157,9 +157,6 @@ async function readZones() {
         try {
             const result = await client.readHoldingRegisters(register, 1);
             console.log(result)
-            if(!result.data[0]){
-                continue
-            }
             const decoded = decodeZone(result.data[0]);
             state.zones[zone] = {
                 exists: decoded.exists,
@@ -180,9 +177,6 @@ async function readDetectors() {
         const register = 0x60 + (address - 1);
         try {
             const result = await client.readHoldingRegisters(register, 1);
-            if(!result.data[0]){
-                continue
-            }
             const decoded = decodeDetector(result.data[0]);
             console.log(decoded)
             state.detectors[address] = {
@@ -191,7 +185,7 @@ async function readDetectors() {
                 // type и zone не обновляем — они задаются мастером, а не slave
                 state: decoded.state,
                 faultType: decoded.faultType,
-                // zone: decoded.zone
+                zone: decoded.zone
             };
             console.log(`[MODBUS] чтение Detector ${address}: state=${decoded.state}, zone=${decoded.zone}`);
         } catch (err) {
@@ -203,11 +197,11 @@ async function readDetectors() {
 
 async function readController() {
     try {
-        const result14 = await client.readHoldingRegisters(14, 1);
-        const result15 = await client.readHoldingRegisters(15, 1);
-        state.controller.boardFault = result14.data[0];
-        state.controller.powerType = result15.data[0];
-        console.log(`[MODBUS] Controller: boardFault=${result14.data[0]}, powerType=${result15.data[0]}`);
+        const result3 = await client.readHoldingRegisters(3, 1);
+        const result6 = await client.readHoldingRegisters(6, 1);
+        state.controller.boardFault = result3.data[0];
+        state.controller.powerType = result6.data[0];
+        console.log(`[MODBUS] Controller: offSound=${result3.data[0]}, sek=${result6.data[0]}`);
     } catch (err) {
         console.error(`[MODBUS] Ошибка чтения контроллера: ${err.message}`);
     }
