@@ -213,17 +213,19 @@ function randomControllerUpdate() {
 async function modbusLoop(firstRun = true) {
 
     try {
-
-        await handleAddressChange(
-            client
-        );
+        console.log(client)
+        if (client) {
+            await handleAddressChange(client);
+        } else {
+            console.log("[MODBUS] Client not connected, skipping handleAddressChange");
+        }
 
         // Читаем актуальное состояние от slave
 
 
         // Показываем изменения, которые произошли со стороны slave
         if (!firstRun) {
-            // Controller
+            
             await readAllFromSlave();
             if (
                 state.controller.boardFault !== previousValues.controller.boardFault ||
