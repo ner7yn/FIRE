@@ -199,9 +199,9 @@ async function readController() {
     try {
         const result3 = await client.readHoldingRegisters(3, 1);
         const result6 = await client.readHoldingRegisters(6, 1);
-        state.controller.boardFault = result3.data[0];
-        state.controller.powerType = result6.data[0];
-        console.log(`[MODBUS] Controller: offSound=${result3.data[0]}, sek=${result6.data[0]}`);
+        state.controller.offSound = result3.data[0];
+        state.controller.pollingInterval = result6.data[0];
+        console.log(`[MODBUS] Controller: offSound=${result3.data[0]}, pollingInterval=${result6.data[0]}`);
     } catch (err) {
         console.error(`[MODBUS] Ошибка чтения контроллера: ${err.message}`);
     }

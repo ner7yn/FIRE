@@ -2,7 +2,9 @@ const state = {
 
     controller: {
         boardFault: 0,
-        powerType: 0
+        powerType: 0,
+        pollingInterval: 3,
+        offSound: 15,
     },
 
     settings: {},
