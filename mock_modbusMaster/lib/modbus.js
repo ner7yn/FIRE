@@ -187,7 +187,7 @@ async function readDetectors() {
                 faultType: decoded.faultType,
                 zone: decoded.zone
             };
-            console.log(`[MODBUS] чтение Detector ${address}: state=${decoded.state}, zone=${decoded.zone}`);
+            console.log(`[MODBUS] чтение Detector ${address} (Адрес: ${register}): state=${decoded.state}, zone=${decoded.zone}`);
         } catch (err) {
             console.error(`[MODBUS] Ошибка чтения детектора ${address}: ${err.message}`);
         }
