@@ -128,7 +128,7 @@ async function syncChanged() {
         const previousState = previousValues.zones[zone];
 
         if (previousState === undefined || currentState !== previousState) {
-            const register = 0x20 + (zone - 1);
+            const register = 0x0E + (zone - 1);
             const encoded = encodeZone(state.zones[zone]);
 
             if (previousState !== undefined) {
@@ -153,7 +153,7 @@ async function syncChanged() {
         const previousState = previousValues.detectors[address];
 
         if (previousState === undefined || currentState !== previousState) {
-            const register = 0x60 + (address - 1);
+            const register = 0x36 + (address - 1);
             const encoded = encodeDetector(detector);
 
             if (previousState !== undefined) {
@@ -225,7 +225,7 @@ async function modbusLoop(firstRun = true) {
 
         // Показываем изменения, которые произошли со стороны slave
         if (!firstRun) {
-            
+
             await readAllFromSlave();
             if (
                 state.controller.boardFault !== previousValues.controller.boardFault ||

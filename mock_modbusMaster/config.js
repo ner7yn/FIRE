@@ -1,6 +1,6 @@
 module.exports = {
     modbus: {
-        port: "/dev/ttys006",
+        port: "/dev/ttys007",
         slaveId: 69,
 
         baudRate: 9600,

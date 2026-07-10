@@ -73,8 +73,8 @@ async function handleAddressChange(
     console.log(`Detector moved ${oldAddress} -> ${newAddress}`);
 
     // Обновляем регистры Modbus: новый адрес — записываем данные, старый — очищаем
-    const regNew = 0x60 + (newAddress - 1);
-    const regOld = 0x60 + (oldAddress - 1);
+    const regNew = 0x36 + (newAddress - 1);
+    const regOld = 0x36 + (oldAddress - 1);
 
     try {
         const newVal = state.detectors[newAddress]

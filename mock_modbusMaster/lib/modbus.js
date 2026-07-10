@@ -93,7 +93,7 @@ async function writeZones() {
     ) {
 
         const register =
-            0x20 + (zone - 1);
+            0x0E + (zone - 1);
 
         const value =
             encodeZone(
@@ -124,7 +124,7 @@ async function writeDetectors() {
     ) {
 
         const register =
-            0x60 + (address - 1);
+            0x36 + (address - 1);
 
         const detector =
             state.detectors[address];
@@ -153,7 +153,7 @@ async function readZones() {
     state.zones = state.zones || {};
     console.log("[MODBUS] Чтение зон от slave...");
     for (let zone = 1; zone <= 40; zone++) {
-        const register = 0x20 + (zone - 1);
+        const register = 0x0E + (zone - 1);
         try {
             const result = await client.readHoldingRegisters(register, 1);
             console.log(result)
@@ -174,7 +174,7 @@ async function readDetectors() {
     state.detectors = state.detectors || {};
     console.log("[MODBUS] Чтение детекторов от slave...");
     for (let address = 1; address <= 128; address++) {
-        const register = 0x60 + (address - 1);
+        const register = 0x36 + (address - 1);
         try {
             const result = await client.readHoldingRegisters(register, 1);
             const decoded = decodeDetector(result.data[0]);
