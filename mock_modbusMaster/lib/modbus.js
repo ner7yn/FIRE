@@ -65,21 +65,21 @@ async function writeController() {
         0
     );
 
-    console.log(13)
+
 
     await client.writeRegister(
         14,
         state.controller.boardFault
     );
 
-    console.log(14)
+
 
     await client.writeRegister(
         15,
         state.controller.powerType
     );
 
-    console.log(15)
+
 }
 
 async function writeZones() {
