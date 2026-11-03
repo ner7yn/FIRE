@@ -73,8 +73,9 @@ async function handleAddressChange(
     console.log(`Detector moved ${oldAddress} -> ${newAddress}`);
 
     // Обновляем регистры Modbus: новый адрес — записываем данные, старый — очищаем
-    const regNew = 0x36 + (newAddress - 1);
-    const regOld = 0x36 + (oldAddress - 1);
+    const regNew = 0x36 + (newAddress - 1) * 2;
+    const regOld = 0x36 + (oldAddress - 1) * 2;
+    const oldThreshold = detectorObj.threshold ?? 0;
 
     try {
         const newVal = state.detectors[newAddress]
@@ -82,9 +83,11 @@ async function handleAddressChange(
             : 0;
 
         await client.writeRegister(regNew, newVal);
+        await client.writeRegister(regNew + 1, oldThreshold);
 
         // Очищаем старый регистр (теперь там нет детектора)
         await client.writeRegister(regOld, 0);
+        await client.writeRegister(regOld + 1, 0);
     } catch (err) {
         console.error(`[MODBUS] Error writing detector registers: ${err.message}`);
     }

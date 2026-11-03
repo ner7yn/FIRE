@@ -106,7 +106,6 @@ async function writeZones() {
             register,
             value
         );
-
         console.log(`[MODBUS] writeZones: zone=${zone} OK`);
     }
 
@@ -124,7 +123,7 @@ async function writeDetectors() {
     ) {
 
         const register =
-            0x36 + (address - 1);
+            0x36 + (address - 1) * 2;
 
         const detector =
             state.detectors[address];
@@ -140,6 +139,10 @@ async function writeDetectors() {
             await client.writeRegister(
                 register,
                 value
+            );
+            await client.writeRegister(
+                register + 1,
+                detector?.threshold ?? 0
             );
         } catch (err) {
             console.error(`[MODBUS] Ошибка записи детектора ${address} (регистр ${register}): ${err.message}`);
@@ -174,9 +177,10 @@ async function readDetectors() {
     state.detectors = state.detectors || {};
     console.log("[MODBUS] Чтение детекторов от slave...");
     for (let address = 1; address <= 128; address++) {
-        const register = 0x36 + (address - 1);
+        const register = 0x36 + (address - 1) * 2;
         try {
             const result = await client.readHoldingRegisters(register, 1);
+            const thresholdResult = await client.readHoldingRegisters(register + 1, 1);
             const decoded = decodeDetector(result.data[0]);
             console.log(decoded)
             state.detectors[address] = {
@@ -185,7 +189,8 @@ async function readDetectors() {
                 // type и zone не обновляем — они задаются мастером, а не slave
                 state: decoded.state,
                 faultType: decoded.faultType,
-                zone: decoded.zone
+                zone: decoded.zone,
+                threshold: thresholdResult.data[0]
             };
             console.log(`[MODBUS] чтение Detector ${address} (Адрес: ${register}): state=${decoded.state}, zone=${decoded.zone}`);
         } catch (err) {

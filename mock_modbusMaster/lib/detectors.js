@@ -23,7 +23,7 @@ function generateDetector(address) {
 
         zone: 0,
 
-        threshold: 0
+        threshold: type === 1 ? 0 : type === 2 ? 20 : 40
     };
 }
 

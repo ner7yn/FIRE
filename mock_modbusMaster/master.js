@@ -153,7 +153,7 @@ async function syncChanged() {
         const previousState = previousValues.detectors[address];
 
         if (previousState === undefined || currentState !== previousState) {
-            const register = 0x36 + (address - 1);
+            const register = 0x36 + (address - 1) * 2;
             const encoded = encodeDetector(detector);
 
             if (previousState !== undefined) {
